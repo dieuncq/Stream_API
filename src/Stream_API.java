@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Stream_API {
     List<Student> l_Student = new ArrayList<Student>();
+    List<StudentDTO> l_StudentDTO = new ArrayList<StudentDTO>();
 }
 
 class Stream_API_Exercise {
@@ -19,31 +21,61 @@ class Stream_API_Exercise {
         stream_API.l_Student.add(new Student(9, "Hoang Thi L","Female",23));
         stream_API.l_Student.add(new Student(10, "Truong Thi M","Female",20));
 
+        System.out.println("\nThe list of students:");
+        stream_API.l_Student
+            .stream()
+            .forEach(x->{
+                System.out.println(
+                        "Student " + x.i_ID + ": " +
+                        "Name: " + x.s_Name + ", " +
+                        "Gender: " + x.s_Gender + ", " +
+                        "Age: " + x.i_Age
+                );
+            });
+
         System.out.println("\nThe students after filtered by gender:");
         List<Student> l_Student_FilterByGender = Filter.ByGender(stream_API.l_Student);
         l_Student_FilterByGender
-                .stream()
-                .forEach(x->{
-                    System.out.println(
-                            "Student " + x.i_ID + ": " +
-                            "Name: " + x.s_Name + ", " +
-                            "Gender: " + x.s_Gender + ", " +
-                            "Age: " + x.i_Age
-                    );
-                });
+            .stream()
+            .forEach(x->{
+                System.out.println(
+                    "Student " + x.i_ID + ": " +
+                    "Name: " + x.s_Name + ", " +
+                    "Gender: " + x.s_Gender + ", " +
+                    "Age: " + x.i_Age
+                );
+            });
 
         List<Student> l_Student_FilterByAge = Filter.ByAge(stream_API.l_Student);
         Long long_Students_CountByAge = Filter.CountByAge(stream_API.l_Student);
         System.out.println("\nThe students after filtered by age: (" + long_Students_CountByAge + " student" + (long_Students_CountByAge > 2 ? "s" : "") + ")");
         l_Student_FilterByAge
+            .stream()
+            .forEach(x->{
+                System.out.println(
+                    "Student " + x.i_ID + ": " +
+                    "Name: " + x.s_Name + ", " +
+                    "Gender: " + x.s_Gender + ", " +
+                    "Age: " + x.i_Age
+                );
+            });
+
+        System.out.println("\nThe students after converted from Student to StudentDTO:");
+        stream_API.l_StudentDTO =
+            stream_API.l_Student
                 .stream()
-                .forEach(x->{
-                    System.out.println(
-                            "Student " + x.i_ID + ": " +
-                            "Name: " + x.s_Name + ", " +
-                            "Gender: " + x.s_Gender + ", " +
-                            "Age: " + x.i_Age
-                    );
-                });
+                .map(x->new StudentDTO(x.i_ID, x.s_Name, x.s_Gender, x.i_Age))
+                .collect(Collectors.toList());
+
+        stream_API.l_StudentDTO
+            .stream()
+            .forEach(x->{
+                System.out.println(
+                    "Student " + x.i_ID + ": " +
+                    "Name: " + x.s_Name + ", " +
+                    "Gender: " + x.s_Gender + ", " +
+                    "Age: " + x.i_Age
+                );
+            });
     }
 }
